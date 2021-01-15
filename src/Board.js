@@ -13,7 +13,8 @@ class Board extends React.Component {
                                 {
                                     Array(this.props.column).fill(null).map( (_c,ci) =>
                                     {
-                                        return ( <div key={_c} className="square"></div> );
+                                        const sqClassname = ri === this.props.egg.y && ci === this.props.egg.x ? "square egg": "square";
+                                        return ( <div key={ci} className={sqClassname}></div> );
                                     } ) 
                                 }
                             </div>);

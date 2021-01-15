@@ -32,14 +32,19 @@ code {
 }
 
 .square {
-  background: #fff;
+  /*background: #fff;*/
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 8px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  line-height: 8px;
+  height: 12px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 12px;
+}
+
+.egg
+{
+   background: red;
 }
