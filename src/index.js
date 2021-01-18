@@ -85,22 +85,61 @@ class Game extends React.Component
 
           const targetX = this.state.body[0].x + moveX;
           const targetY = this.state.body[0].y + moveY;
-
           //console.log( "targetX:" + targetX );
           //console.log( "targetY:" + targetY );
-
-          if(  targetX >= 0 && targetX < this.width && targetY >= 0 && targetY < this.height) 
-          {
+          //targetX >= 0 && targetX < this.width && targetY >= 0 && targetY < this.height
+          const live = this.checkLive(targetX , targetY , this.state.body );
+          if( live ) 
+          {  
+            if( targetX === this.state.egg.x && targetY === this.state.egg.y )
+            {
+              var newBody = [{x:targetX,y:targetY}].concat( this.state.body.slice() );
+              const nEgg = this.createEgg(newBody);
+              return {
+                step: state.step + 1,
+                body: newBody,
+                egg: nEgg
+              }
+            }
             return {
               step: state.step + 1,
               body: [{x:targetX,y:targetY}].concat( this.state.body.slice(0,this.state.body.length-1) )
             }
+            
           }
 
           this.end();
           return;
         }
       );
+  }
+
+  checkLive( targetX , targetY , body )
+  {
+      if( targetX >= 0 && targetX < this.width && targetY >= 0 && targetY < this.height )
+      {
+          var touchBody = body.some( t=> t.x === targetX && t.y === targetY );
+          if( touchBody )
+            return false;
+          return true;
+      }
+      return false;
+  }
+
+  createEgg(body)
+  {
+    const blankArea = [];
+    for(let r=0;r<this.height;r++)
+    {
+      for(let c=0;c<this.width;c++)
+      {
+        var occupy = body.some( t=> t.x === c && t.y === r );
+        if( !occupy )
+          blankArea.push( {x:c,y:r} );
+      }
+    }
+    const randomIndex = Math.floor(Math.random() * blankArea.length);
+    return blankArea[randomIndex];
   }
 
   render()
