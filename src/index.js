@@ -11,9 +11,17 @@ class Game extends React.Component
       this.state = {
                     step: 0,
                     egg:{ 
-                          x: 5, 
-                          y: 5
+                          x: 12, 
+                          y: 12
                         },
+                    body:
+                    [
+                      { x:9, y:5 },
+                      { x:8, y:5 },
+                      { x:7, y:5 },
+                      { x:6, y:5 },
+                      { x:5, y:5 }
+                    ],
                     direction:"right"
                    };
       
@@ -75,21 +83,17 @@ class Game extends React.Component
                 break;
           }
 
-          const targetX = this.state.egg.x + moveX;
-          const targetY = this.state.egg.y + moveY;
+          const targetX = this.state.body[0].x + moveX;
+          const targetY = this.state.body[0].y + moveY;
 
-          console.log( "targetX:" + targetX );
-          console.log( "targetY:" + targetY );
+          //console.log( "targetX:" + targetX );
+          //console.log( "targetY:" + targetY );
 
           if(  targetX >= 0 && targetX < this.width && targetY >= 0 && targetY < this.height) 
           {
             return {
               step: state.step + 1,
-              egg: 
-              {
-                x:targetX,
-                y:targetY
-              }
+              body: [{x:targetX,y:targetY}].concat( this.state.body.slice(0,this.state.body.length-1) )
             }
           }
 
@@ -103,7 +107,9 @@ class Game extends React.Component
   {
       return (
         <div className='game'>
-          <Board column={this.width} row={this.height} egg={this.state.egg}></Board>
+          <Board column={this.width} row={this.height} 
+                 egg={this.state.egg}
+                 body={this.state.body}></Board>
           <div className='game-info'>
             <h2>{this.state.step}</h2>
             <button onClick={()=>this.start()}>Start</button>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Square from './Square';
 
 class Board extends React.Component {
     render() 
@@ -13,8 +14,8 @@ class Board extends React.Component {
                                 {
                                     Array(this.props.column).fill(null).map( (_c,ci) =>
                                     {
-                                        const sqClassname = ri === this.props.egg.y && ci === this.props.egg.x ? "square egg": "square";
-                                        return ( <div key={ci} className={sqClassname}></div> );
+                                        const category = this.getCategory( ci,ri );
+                                        return ( <Square key={ci} category={category}></Square> );
                                     } ) 
                                 }
                             </div>);
@@ -22,6 +23,13 @@ class Board extends React.Component {
                 }
             </div>
         );
+    }
+
+    getCategory( x , y )
+    {
+        if( y === this.props.egg.y && x === this.props.egg.x )
+            return "egg";
+        return this.props.body.some( t => t.x === x && t.y === y ) ? "body":"blank";
     }
 }
 
